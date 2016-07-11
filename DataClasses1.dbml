@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MovieDatabase" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\MovieDatabase.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="WindowsFormsApplication1.Properties.Settings" SettingsPropertyName="MovieDatabaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Genre" Member="Genres">
+    <Type Name="Genre">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Genre_MovieGenre" Member="MovieGenres" ThisKey="Id" OtherKey="genreID" Type="MovieGenre" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Role_MoviePerson" Member="MoviePersons" ThisKey="Id" OtherKey="roleID" Type="MoviePerson" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movie" Member="Movies">
+    <Type Name="Movie">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="title" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="releaseyear" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="language" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="length" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="directorId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Movie_MovieGenre" Member="MovieGenres" ThisKey="Id" OtherKey="movieID" Type="MovieGenre" />
+      <Association Name="Movie_MoviePerson" Member="MoviePersons" ThisKey="Id" OtherKey="movieID" Type="MoviePerson" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MovieGenre" Member="MovieGenres">
+    <Type Name="MovieGenre">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="movieID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="genreID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Genre_MovieGenre" Member="Genre" ThisKey="genreID" OtherKey="Id" Type="Genre" IsForeignKey="true" />
+      <Association Name="Movie_MovieGenre" Member="Movie" ThisKey="movieID" OtherKey="Id" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MoviePerson" Member="MoviePersons">
+    <Type Name="MoviePerson">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="movieID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="personID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Movie_MoviePerson" Member="Movie" ThisKey="movieID" OtherKey="Id" Type="Movie" IsForeignKey="true" />
+      <Association Name="Role_MoviePerson" Member="Role" ThisKey="roleID" OtherKey="Id" Type="Role" IsForeignKey="true" />
+      <Association Name="Person_MoviePerson" Member="Person" ThisKey="personID" OtherKey="Id" Type="Person" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Person" Member="Persons">
+    <Type Name="Person">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="gender" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="birthyear" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nationality" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Person_MoviePerson" Member="MoviePersons" ThisKey="Id" OtherKey="personID" Type="MoviePerson" />
+    </Type>
+  </Table>
+</Database>
